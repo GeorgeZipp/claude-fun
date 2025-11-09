@@ -21,6 +21,8 @@ export default function ResultsControl() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [manualEntries, setManualEntries] = useState<Record<string, { phrase: string; points: string }>>({});
 
   const currentRound = rounds[currentRoundIndex];
 
@@ -115,27 +117,49 @@ export default function ResultsControl() {
     }
   };
 
-  const handleManualAdd = () => {
-    const teamId = prompt('Team ID or name:');
-    const team = teams.find(t => t.id === teamId || t.name === teamId);
-    if (!team) {
-      alert('Team not found');
-      return;
+  const handleManualEntryToggle = () => {
+    setShowManualEntry(!showManualEntry);
+    if (!showManualEntry) {
+      // Initialize empty entries for all active teams
+      const activeTeams = teams.filter(t => t.active);
+      const entries: Record<string, { phrase: string; points: string }> = {};
+      activeTeams.forEach(team => {
+        entries[team.id] = { phrase: '', points: '0' };
+      });
+      setManualEntries(entries);
     }
+  };
 
-    const phrase = prompt('Phrase:');
-    if (!phrase) return;
+  const handleManualEntryChange = (teamId: string, field: 'phrase' | 'points', value: string) => {
+    setManualEntries(prev => ({
+      ...prev,
+      [teamId]: {
+        ...prev[teamId],
+        [field]: value
+      }
+    }));
+  };
 
-    const points = parseInt(prompt('Points:') || '0');
+  const handleManualSubmit = () => {
+    clearResults();
+    const activeTeams = teams.filter(t => t.active);
 
-    addResult({
-      teamId: team.id,
-      teamName: team.name,
-      teamColor: team.color,
-      phrase,
-      points,
-      source: 'manual',
+    activeTeams.forEach(team => {
+      const entry = manualEntries[team.id];
+      if (entry && entry.phrase) {
+        addResult({
+          teamId: team.id,
+          teamName: team.name,
+          teamColor: team.color,
+          phrase: entry.phrase,
+          points: parseInt(entry.points) || 0,
+          source: 'manual',
+        });
+      }
     });
+
+    setSuccess('Manual results added!');
+    setShowManualEntry(false);
   };
 
   const handleApplyScores = () => {
@@ -213,13 +237,71 @@ export default function ResultsControl() {
 
       {/* Manual Entry */}
       <div className="mt-3 pt-3 border-t">
-        <button
-          onClick={handleManualAdd}
-          className="btn bg-gray-200 w-full flex items-center justify-center gap-2 text-sm"
-        >
-          <Plus className="w-4 h-4" />
-          Enter Manually Instead
-        </button>
+        {!showManualEntry ? (
+          <button
+            onClick={handleManualEntryToggle}
+            className="btn bg-gray-200 w-full flex items-center justify-center gap-2 text-sm"
+          >
+            <Plus className="w-4 h-4" />
+            Enter Manually Instead
+          </button>
+        ) : (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-bold">Manual Entry</h3>
+              <button
+                onClick={() => setShowManualEntry(false)}
+                className="text-xs text-gray-500 hover:text-gray-700"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <div className="max-h-64 overflow-y-auto space-y-3">
+              {teams.filter(t => t.active).map(team => (
+                <div key={team.id} className="p-3 bg-gray-50 rounded border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: team.color }} />
+                    <span className="text-sm font-medium">{team.name}</span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-xs text-gray-600 block mb-1">Phrase</label>
+                      <input
+                        type="text"
+                        value={manualEntries[team.id]?.phrase || ''}
+                        onChange={(e) => handleManualEntryChange(team.id, 'phrase', e.target.value)}
+                        placeholder="Enter phrase..."
+                        className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-gray-600 block mb-1">Points (0-100)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={manualEntries[team.id]?.points || '0'}
+                        onChange={(e) => handleManualEntryChange(team.id, 'points', e.target.value)}
+                        className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={handleManualSubmit}
+              className="btn btn-success w-full flex items-center justify-center gap-2"
+            >
+              <CheckCircle className="w-4 h-4" />
+              Submit Manual Results
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
