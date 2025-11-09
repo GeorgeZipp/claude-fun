@@ -1,0 +1,16 @@
+{
+  "name": "google-trends-testing",
+  "version": "1.0.0",
+  "description": "Testing Google Trends API with Node.js",
+  "main": "test_trends.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test_trends.js"
+  },
+  "keywords": ["google-trends", "api", "testing"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "google-trends-api": "^4.9.2"
+  }
+}
