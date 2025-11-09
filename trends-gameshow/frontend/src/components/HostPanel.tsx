@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useGameStore } from '../store';
 import { Monitor, Tv, Maximize2 } from 'lucide-react';
 import ScreenControl from './host/ScreenControl';

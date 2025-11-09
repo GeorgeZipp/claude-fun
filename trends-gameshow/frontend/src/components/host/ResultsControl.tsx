@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useGameStore } from '../../store';
 import { trendsApi } from '../../api';
 import { Download, Loader2, Plus, Trash2, CheckCircle } from 'lucide-react';
-import type { CompareResult } from '../../types';
 
 export default function ResultsControl() {
   const {
@@ -37,14 +36,15 @@ export default function ResultsControl() {
     // Build phrases array
     if (currentRound.type === 'naming') {
       // For naming rounds, use team submissions combined with base term
-      const namingPosition = currentRound.namingPosition || 'after';
+      // Each team can choose their own position (before or after)
       activeTeams.forEach(team => {
         const submission = submissions[team.id];
-        if (submission) {
+        if (submission && submission.phrase) {
+          const position = submission.position || 'after';
           // Position determines order: before means "submission term", after means "term submission"
-          const phrase = namingPosition === 'before'
-            ? `${submission} ${currentRound.term}`
-            : `${currentRound.term} ${submission}`;
+          const phrase = position === 'before'
+            ? `${submission.phrase} ${currentRound.term}`
+            : `${currentRound.term} ${submission.phrase}`;
           phrases.push(phrase);
         }
       });
@@ -81,7 +81,7 @@ export default function ResultsControl() {
               teamId: team.id,
               teamName: team.name,
               teamColor: team.color,
-              phrase: submissions[team.id] || '',
+              phrase: submissions[team.id]?.phrase || '',
               points: trendsData.relativeScore,
               trendsData,
               source: 'api',

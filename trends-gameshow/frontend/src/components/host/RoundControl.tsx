@@ -10,7 +10,6 @@ export default function RoundControl() {
     nextRound,
     previousRound,
     addRound,
-    updateRound,
     deleteRound,
     apiConfig,
   } = useGameStore();
@@ -28,13 +27,10 @@ export default function RoundControl() {
     let multiplier = 1;
     let wagerEnabled = false;
     let wagerRange = { min: 10, max: 100 };
-    let namingPosition: 'before' | 'after' = 'after';
 
     switch (typeNum) {
       case 2:
         type = 'naming';
-        const posStr = prompt('Team submissions go:\n1. After the term (e.g., "Birth" + "Natural" = "Natural Birth")\n2. Before the term (e.g., "Music" + "Jazz" = "Jazz Music")\n\nEnter number (1-2):', '1');
-        namingPosition = posStr === '2' ? 'before' : 'after';
         break;
       case 3:
         type = 'bonus';
@@ -59,7 +55,6 @@ export default function RoundControl() {
       dateRange: { preset: apiConfig.defaultDateRange },
       region: apiConfig.defaultRegion,
       autoFetch: true,
-      namingPosition: type === 'naming' ? namingPosition : undefined,
     });
   };
 

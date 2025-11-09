@@ -37,8 +37,8 @@ export default function NamingScreen() {
             </div>
 
             <div className="bg-white/10 rounded-lg p-6 min-h-[100px] flex items-center justify-center">
-              {submissions[team.id] ? (
-                <p className="text-3xl font-bold">{submissions[team.id]}</p>
+              {submissions[team.id]?.phrase ? (
+                <p className="text-3xl font-bold">{submissions[team.id].phrase}</p>
               ) : (
                 <p className="text-xl opacity-60 italic">Thinking...</p>
               )}

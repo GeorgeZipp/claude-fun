@@ -28,7 +28,6 @@ export interface Round {
   dateRange: DateRange;
   region: string;
   autoFetch: boolean;
-  namingPosition?: 'before' | 'after'; // Where team submissions go relative to the base term
 }
 
 export interface TrendsDataPoint {
@@ -63,6 +62,11 @@ export interface TimerState {
   visible: boolean;
 }
 
+export interface TeamSubmission {
+  phrase: string;
+  position: 'before' | 'after';
+}
+
 export interface GameState {
   teams: Team[];
   rounds: Round[];
@@ -70,7 +74,7 @@ export interface GameState {
   displayScreen: ScreenType;
   viewMode: ViewMode;
   timer: TimerState;
-  submissions: Record<string, string>;
+  submissions: Record<string, TeamSubmission>;
   compareResults: CompareResult[];
   wagers: Record<string, number>;
   bonusConfig: {

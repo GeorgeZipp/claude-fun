@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GameState, Team, Round, CompareResult, ScreenType, ViewMode, DateRangePreset } from './types';
+import type { GameState, Team, Round, CompareResult, ScreenType, ViewMode } from './types';
 
 const TEAM_COLORS = [
   '#3B82F6', // Blue
@@ -43,7 +43,7 @@ interface GameStore extends GameState {
   tick: () => void;
 
   // Submission actions
-  setSubmission: (teamId: string, phrase: string) => void;
+  setSubmission: (teamId: string, phrase: string, position: 'before' | 'after') => void;
   clearSubmissions: () => void;
 
   // Results actions
@@ -68,7 +68,7 @@ interface GameStore extends GameState {
   setSettings: (settings: Partial<GameState['settings']>) => void;
 }
 
-export const useGameStore = create<GameStore>((set, get) => ({
+export const useGameStore = create<GameStore>((set) => ({
   // Initial state
   teams: [
     { id: generateId(), name: 'Team Blue', score: 0, color: TEAM_COLORS[0], active: true },
@@ -211,8 +211,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   }),
 
   // Submission actions
-  setSubmission: (teamId, phrase) => set((state) => ({
-    submissions: { ...state.submissions, [teamId]: phrase },
+  setSubmission: (teamId, phrase, position) => set((state) => ({
+    submissions: { ...state.submissions, [teamId]: { phrase, position } },
   })),
 
   clearSubmissions: () => set({ submissions: {} }),

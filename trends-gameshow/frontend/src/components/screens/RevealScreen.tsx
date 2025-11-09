@@ -25,10 +25,7 @@ export default function RevealScreen() {
   };
 
   const getTypeBadge = () => {
-    if (currentRound.type === 'naming') {
-      const pos = currentRound.namingPosition || 'after';
-      return `NAMING (${pos === 'before' ? 'Before' : 'After'})`;
-    }
+    if (currentRound.type === 'naming') return 'NAMING';
     if (currentRound.type === 'bonus') return `BONUS x${currentRound.multiplier}`;
     if (currentRound.type === 'wager') return 'WAGER';
     return null;
