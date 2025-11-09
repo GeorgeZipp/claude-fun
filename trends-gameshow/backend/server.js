@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import googleTrends from 'google-trends-api';
+import googleTrends from 'google-trends-api-429-fix';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -100,7 +100,20 @@ app.post('/api/trends/compare', async (req, res) => {
       granularTimeResolution: true
     });
 
-    const data = JSON.parse(response);
+    // Check if response is HTML (error page) instead of JSON
+    let data;
+    try {
+      data = JSON.parse(response);
+    } catch (parseError) {
+      // Response is likely HTML error page from Google blocking the request
+      console.error('Failed to parse Google Trends response:', response.substring(0, 200));
+      return res.status(503).json({
+        error: 'Google Trends API blocked the request',
+        message: 'Google is blocking automated requests. This is common and expected.',
+        details: 'Please try again in a few moments, use a VPN/proxy, or enter results manually.',
+        suggestion: 'For testing, use the "Enter Manually Instead" button to input custom scores.'
+      });
+    }
 
     if (!data || !data.default || !data.default.timelineData) {
       return res.status(404).json({ error: 'No data found for these search terms' });
