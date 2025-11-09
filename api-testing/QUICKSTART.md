@@ -11,10 +11,7 @@ cd api-testing/python
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Run the demo (works even if blocked)
-python demo_with_mock.py
-
-# 4. Try the full test
+# 3. Run the test
 python test_pytrends.py
 ```
 
@@ -37,7 +34,7 @@ npm test
 - Google is blocking your IP/environment
 - Try from a different network
 - Use a VPN
-- Or use the mock demo: `python demo_with_mock.py`
+- Or use commercial APIs (see `ALTERNATIVES.md`)
 
 ### DNS/Network Errors?
 - Your environment may not have internet access
@@ -91,8 +88,7 @@ api-testing/
 ├── QUICKSTART.md         # This file
 ├── python/
 │   ├── requirements.txt   # Python dependencies
-│   ├── test_pytrends.py  # Full test suite
-│   └── demo_with_mock.py # Demo with fallback
+│   └── test_pytrends.py  # Full test suite
 └── nodejs/
     ├── package.json       # Node dependencies
     └── test_trends.js    # Test suite

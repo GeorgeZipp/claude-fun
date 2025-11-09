@@ -147,10 +147,9 @@ const realtimeData = await googleTrends.realTimeTrends({
 
 If the APIs are blocked in your environment:
 
-1. **Run the mock demo**: `python python/demo_with_mock.py`
-2. **Use from local machine**: Download and run locally
-3. **Use commercial APIs**: See `ALTERNATIVES.md` for production-ready options
-4. **Apply for official API**: Google Trends API (alpha) access
+1. **Use from local machine**: Download and run locally
+2. **Use commercial APIs**: See `ALTERNATIVES.md` for production-ready options
+3. **Apply for official API**: Google Trends API (alpha) access
 
 ## Troubleshooting
 
