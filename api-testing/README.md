@@ -32,6 +32,16 @@ pip install -r requirements.txt
 
 ### Run Tests
 
+**Quick test with your own search terms:**
+```bash
+# Interactive mode (prompts for terms)
+python custom_test.py
+
+# Or pass terms directly
+python custom_test.py "bitcoin" "ethereum" "dogecoin"
+```
+
+**Full test suite:**
 ```bash
 python test_pytrends.py
 ```
@@ -75,6 +85,16 @@ npm install
 
 ### Run Tests
 
+**Quick test with your own search terms:**
+```bash
+# Interactive mode (prompts for terms)
+node custom_test.js
+
+# Or pass terms directly
+node custom_test.js "bitcoin" "ethereum" "dogecoin"
+```
+
+**Full test suite:**
 ```bash
 npm test
 # or

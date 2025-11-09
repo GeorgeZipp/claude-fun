@@ -11,7 +11,10 @@ cd api-testing/python
 # 2. Install dependencies
 pip install -r requirements.txt
 
-# 3. Run the test
+# 3. Test with your own terms (recommended to prove it works!)
+python custom_test.py
+
+# Or run the full test suite
 python test_pytrends.py
 ```
 
@@ -24,7 +27,10 @@ cd api-testing/nodejs
 # 2. Install dependencies
 npm install
 
-# 3. Run the test
+# 3. Test with your own terms (recommended to prove it works!)
+node custom_test.js
+
+# Or run the full test suite
 npm test
 ```
 
@@ -53,6 +59,22 @@ Instead, use:
 See `ALTERNATIVES.md` for detailed comparison.
 
 ## Quick Examples
+
+### Test with Your Own Terms (Easiest Way!)
+
+**Python:**
+```bash
+cd api-testing/python
+python custom_test.py "your term" "another term"
+```
+
+**Node.js:**
+```bash
+cd api-testing/nodejs
+node custom_test.js "your term" "another term"
+```
+
+You can also run it without arguments and it will prompt you to enter terms interactively!
 
 ### Python - Get Interest Over Time
 
@@ -88,10 +110,12 @@ api-testing/
 ├── QUICKSTART.md         # This file
 ├── python/
 │   ├── requirements.txt   # Python dependencies
+│   ├── custom_test.py    # Test with your own terms
 │   └── test_pytrends.py  # Full test suite
 └── nodejs/
     ├── package.json       # Node dependencies
-    └── test_trends.js    # Test suite
+    ├── custom_test.js     # Test with your own terms
+    └── test_trends.js    # Full test suite
 ```
 
 ## Need Help?
