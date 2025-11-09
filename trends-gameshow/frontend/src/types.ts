@@ -28,6 +28,7 @@ export interface Round {
   dateRange: DateRange;
   region: string;
   autoFetch: boolean;
+  namingPosition?: 'before' | 'after'; // Where team submissions go relative to the base term
 }
 
 export interface TrendsDataPoint {

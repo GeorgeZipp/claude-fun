@@ -7,8 +7,8 @@ export default function CompareScreen() {
 
   if (compareResults.length === 0) {
     return (
-      <div className="h-full w-full gradient-blue-purple flex items-center justify-center text-white">
-        <div className="text-4xl font-bold">No results to display</div>
+      <div className="h-full w-full bg-gray-50 flex items-center justify-center">
+        <div className="text-2xl font-medium text-gray-500">No results to display</div>
       </div>
     );
   }
@@ -44,16 +44,16 @@ export default function CompareScreen() {
   }
 
   return (
-    <div className="h-full w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 overflow-y-auto">
-      <div className="min-h-full flex flex-col items-center justify-center p-8 text-white">
+    <div className="h-full w-full bg-gray-50 overflow-y-auto">
+      <div className="min-h-full flex flex-col items-center justify-center p-8">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="text-center mb-8"
         >
-          <h1 className="text-5xl font-bold mb-2">Results</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Results</h1>
           {sortedResults[0].trendsData && (
-            <p className="text-xl opacity-90">Google Trends Data</p>
+            <p className="text-sm text-gray-600">Google Trends Data</p>
           )}
         </motion.div>
 
@@ -62,11 +62,11 @@ export default function CompareScreen() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="w-full max-w-5xl mb-12"
+            transition={{ delay: 0.1 }}
+            className="w-full max-w-5xl mb-8"
           >
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Relative Search Interest</h2>
+            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Relative Search Interest</h2>
               <div className="space-y-4">
                 {sortedResults.map((result, index) => (
                   <motion.div
@@ -81,17 +81,17 @@ export default function CompareScreen() {
                         style={{ backgroundColor: result.teamColor }}
                       />
                       <div className="flex-1">
-                        <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center justify-between mb-2">
                           <div>
-                            <span className="font-bold text-lg">{result.teamName}</span>
+                            <span className="font-semibold text-base text-gray-900">{result.teamName}</span>
                             {result.phrase && (
-                              <span className="ml-2 text-sm opacity-75">"{result.phrase}"</span>
+                              <span className="ml-2 text-sm text-gray-600">"{result.phrase}"</span>
                             )}
                           </div>
-                          <div className="text-2xl font-bold">{result.points} pts</div>
+                          <div className="text-xl font-bold text-gray-900">{result.points} pts</div>
                         </div>
 
-                        <div className="bg-white/20 rounded-full h-8 overflow-hidden">
+                        <div className="bg-gray-100 rounded-full h-6 overflow-hidden">
                           <motion.div
                             className="h-full rounded-full"
                             style={{
@@ -102,12 +102,12 @@ export default function CompareScreen() {
                             animate={{
                               width: maxPoints > 0 ? `${(result.points / maxPoints) * 100}%` : '0%',
                             }}
-                            transition={{ delay: 0.6 + index * 0.1, duration: 0.8, ease: 'easeOut' }}
+                            transition={{ delay: 0.3 + index * 0.1, duration: 0.6, ease: 'easeOut' }}
                           />
                         </div>
 
                         {result.trendsData && (
-                          <div className="text-xs opacity-75 mt-1">
+                          <div className="text-xs text-gray-600 mt-1.5">
                             Avg: {result.trendsData.averageInterest} | Peak: {result.trendsData.peakInterest}
                             {result.trendsData.peakDate && ` on ${result.trendsData.peakDate}`}
                           </div>
@@ -126,33 +126,34 @@ export default function CompareScreen() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
+            transition={{ delay: 0.4 }}
             className="w-full max-w-6xl"
           >
-            <div className="glass rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-6 text-center">Trend Over Time</h2>
+            <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Trend Over Time</h2>
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={graphData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.2)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis
                     dataKey="date"
-                    stroke="rgba(255,255,255,0.8)"
-                    tick={{ fill: 'white', fontSize: 12 }}
+                    stroke="#9ca3af"
+                    tick={{ fill: '#6b7280', fontSize: 11 }}
                     angle={-45}
                     textAnchor="end"
                     height={80}
                   />
                   <YAxis
-                    stroke="rgba(255,255,255,0.8)"
-                    tick={{ fill: 'white', fontSize: 12 }}
+                    stroke="#9ca3af"
+                    tick={{ fill: '#6b7280', fontSize: 11 }}
                     domain={[0, 100]}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      border: 'none',
+                      backgroundColor: 'white',
+                      border: '1px solid #e5e7eb',
                       borderRadius: '8px',
-                      color: 'white',
+                      color: '#111827',
+                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                     }}
                   />
                   <Legend
@@ -166,11 +167,11 @@ export default function CompareScreen() {
                         type="monotone"
                         dataKey={result.teamName}
                         stroke={result.teamColor}
-                        strokeWidth={3}
-                        dot={{ fill: result.teamColor, r: 4 }}
-                        activeDot={{ r: 6 }}
-                        animationDuration={1000}
-                        animationBegin={1000}
+                        strokeWidth={2.5}
+                        dot={{ fill: result.teamColor, r: 3 }}
+                        activeDot={{ r: 5 }}
+                        animationDuration={800}
+                        animationBegin={600}
                       />
                     )
                   ))}
@@ -184,10 +185,10 @@ export default function CompareScreen() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="mt-8 text-sm opacity-75"
+          transition={{ delay: 0.8 }}
+          className="mt-6 text-xs text-gray-500"
         >
-          {sortedResults[0].source === 'api' ? '📊 Powered by Google Trends' : '✏️ Manual Entry'}
+          {sortedResults[0].source === 'api' ? 'Powered by Google Trends' : 'Manual Entry'}
         </motion.div>
       </div>
     </div>

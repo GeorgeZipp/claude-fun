@@ -37,10 +37,15 @@ export default function ResultsControl() {
     // Build phrases array
     if (currentRound.type === 'naming') {
       // For naming rounds, use team submissions combined with base term
+      const namingPosition = currentRound.namingPosition || 'after';
       activeTeams.forEach(team => {
         const submission = submissions[team.id];
         if (submission) {
-          phrases.push(`${currentRound.term} ${submission}`);
+          // Position determines order: before means "submission term", after means "term submission"
+          const phrase = namingPosition === 'before'
+            ? `${submission} ${currentRound.term}`
+            : `${currentRound.term} ${submission}`;
+          phrases.push(phrase);
         }
       });
     } else {
